@@ -19,6 +19,10 @@ class UserList(APIView):
         serializer = UserSerializer(users, many=True)
         return Response(serializer.data)
 
+class UserCreate(APIView):
+    """
+    create a new user.
+    """
     def post(self, request, format=None):
         serializer = UserSerializer(data=request.data)
         if serializer.is_valid():
@@ -41,13 +45,19 @@ class UserDetail(APIView):
         serializer = UserSerializer(user)
         return Response(serializer.data)
 
-    # def put(self, request, pk, format=None):
-    #     user = self.get_object(pk)
-    #     serializer = UserSerializer(user, data=request.data)
-    #     if serializer.is_valid():
-    #         serializer.save()
-    #         return Response(serializer.data)
-    #     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    def put(self, request, pk, format=None):
+        user = self.get_object(pk)  
+        if 'email' not in request.data:
+            request.data['email'] = user.email
+        if 'username' not in request.data:
+            request.data['username'] = user.username
+        if 'password' not in request.data:
+            request.data['password'] = user.password
+        serializer = UserDetailSerializer(user, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     def post(self, request, format=None):
         """
@@ -62,8 +72,6 @@ class UserDetail(APIView):
             request.session['token'] = token
             return Response(serializer.data, status=status.HTTP_200_OK)
         except Users.DoesNotExist:
-            print("givery")
-            print(request)
             return Response(request.data, status=status.HTTP_400_BAD_REQUEST)
 
     def delete(self, request, format=None):

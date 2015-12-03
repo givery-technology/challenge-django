@@ -1,0 +1,12 @@
+{
+  "editable": [
+    "app/api/*",
+    "app/app/urls.py",
+    "app/*.txt"
+  ],
+  "excludes": [
+    ".gitignore",
+    "challenge.json",
+  ],
+  "test": "python app/manage.py test api"
+}

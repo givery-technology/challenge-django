@@ -1,10 +1,6 @@
 from rest_framework import serializers
 from api.models import Users
 
-# from api.models import (
-#     Users,
-# )
-
 class UserSerializer(serializers.ModelSerializer):
     """
     Serializing all the Users

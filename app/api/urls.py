@@ -3,10 +3,6 @@ from api import views
 from rest_framework.urlpatterns import format_suffix_patterns
 
 urlpatterns = [
-    # Function Based urls
-    # url(r'^api/users/$', views.users_list),
-    # url(r'^api/users/(?P<pk>[\d]+)/$', views.users_detail),
-
     # Class Based urls
     url(r'^api/users/$', views.UserList.as_view(), name='user-list'),
     # url(r'^api/users/join$', views.UserCreate.as_view()),

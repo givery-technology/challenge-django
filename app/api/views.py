@@ -1,20 +1,14 @@
-# from passlib.hash import pbkdf2_sha256
-
 from django.http import Http404
+from django.core.exceptions import ObjectDoesNotExist
 from rest_framework.views import APIView
 from rest_framework import status
-# from rest_framework.decorators import api_view
 from rest_framework.response import Response
+from rest_framework import generics
+from rest_framework import permissions
 
 from api.models import Users
 from api.serializers import UserSerializer, UserDetailSerializer
-from api.permissions import IsOwnerOrReadOnly
-from rest_framework import generics
-from rest_framework import permissions
-from django.core.exceptions import ObjectDoesNotExist
 import random
-
-# from django.db.models import Q
 
 class UserList(APIView):
     """
@@ -81,64 +75,3 @@ class UserDetail(APIView):
         except KeyError:
             pass     
         return Response(status=status.HTTP_200_OK)
-
-    # def delete(self, request, pk, format=None):
-    #     user = self.get_object(pk)
-    #     user.delete()
-    #     return Response(status=status.HTTP_204_NO_CONTENT)
-
-# class UserList(generics.ListAPIView):
-#     """
-#     List all users, or create a new user.
-#     """
-#     # permission_classes = (permissions.IsAuthenticatedOrReadOnly, IsOwnerOrReadOnly,)
-#     queryset = Users.objects.all()
-#     serializer_class = UserSerializer
-
-# class UserCreate(generics.CreateAPIView):
-#     """
-#     List all users, or create a new user.
-#     """
-#     # permission_classes = (permissions.IsAuthenticatedOrReadOnly, IsOwnerOrReadOnly,)
-#     queryset = Users.objects.all()
-#     serializer_class = UserSerializer    
-
-
-# class UserDetail(generics.RetrieveUpdateDestroyAPIView):
-#     """
-#     Retrieve, update or delete a user instance.
-#     """
-#     # if "token" in request.session:
-#     #     # permission_classes = (IsOwnerOrReadOnly,)
-#     queryset = Users.objects.all()
-#     serializer_class = UserSerializer
-
-
-# class UserList(mixins.ListModelMixin,
-#                   mixins.CreateModelMixin,
-#                   generics.GenericAPIView):
-#     queryset = Users.objects.all()
-#     serializer_class = UserSerializer
-
-#     def get(self, request, *args, **kwargs):
-#         return self.list(request, *args, **kwargs)
-
-#     def post(self, request, *args, **kwargs):
-#         return self.create(request, *args, **kwargs)
-
-# class UserDetail(mixins.RetrieveModelMixin,
-#                     mixins.UpdateModelMixin,
-#                     mixins.DestroyModelMixin,
-#                     generics.GenericAPIView):
-#     queryset = Users.objects.all()
-#     serializer_class = UserSerializer
-
-#     def get(self, request, *args, **kwargs):
-#         return self.retrieve(request, *args, **kwargs)
-
-#     def put(self, request, *args, **kwargs):
-#         return self.update(request, *args, **kwargs)
-
-    # def delete(self, request, *args, **kwargs):
-    #     return self.destroy(request, *args, **kwargs)
-

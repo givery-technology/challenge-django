@@ -8,6 +8,8 @@ class Users(models.Model):
     birthday = models.DateField(auto_now=False, auto_now_add=False, null=True)
     company = models.CharField(max_length=50, null=True)
     location = models.CharField(max_length=50, null=True)
+    created_at = models.DateField(auto_now=True)
+    updated_at = models.DateField(auto_now=True)
 
     def __str__(self):
         return '{} {} {} {} {}'.format(self.name, self.email, self.birthday, self.company, self.location)

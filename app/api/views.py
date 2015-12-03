@@ -46,6 +46,8 @@ class UserDetail(APIView):
         return Response(serializer.data)
 
     def put(self, request, pk, format=None):
+        if 'token' not in request.session: 
+            return Response(status=status.HTTP_400_BAD_REQUEST)
         user = self.get_object(pk)  
         if 'email' not in request.data:
             request.data['email'] = user.email

@@ -61,6 +61,15 @@ class UserDetail(APIView):
             return Response(serializer.data, status=status.HTTP_200_OK)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+    def delete(self, request, pk, format=None):
+        if 'token' not in request.session: 
+            return Response(status=status.HTTP_400_BAD_REQUEST)
+        try:
+            Users.objects.filter(pk=pk).delete()
+            return Response(status=status.HTTP_200_OK)
+        except Users.DoesNotExist:
+            return Response(status=status.HTTP_400_BAD_REQUEST)   
+
     def post(self, request, format=None):
         """
         login.

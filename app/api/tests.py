@@ -88,10 +88,27 @@ class UpdateUser(APITestCase):
             self.assertEqual(Users.objects.get().birthday, datetime.date(1994, 4, 13))   
             self.assertEqual(Users.objects.get().company, 'Givery')   
             self.assertEqual(Users.objects.get().location, 'Tokyo')   
-        else:
-            self.assertEqual(response.status_code, status.HTTP_200_OK) 
 
+class DeleteUser(APITestCase):
+    def test_delete_username_without_login(self):   
+        u = Users(id=8, username='testing8', email='testing8@testing.com', password='password')
+        u.save()
+        url = reverse('show-user', args=[8])
+        response = self.client.put(url)
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)     
 
+    def test_delete_user_with_login(self):   
+        u = Users(id=9, username='testing9', email='testing9@testing.com', password='password', birthday='1997-04-17')
+        u.save()
+
+        url = reverse('login')
+        data = {'email': 'testing9@testing.com', 'password': 'password'}
+        response = self.client.post(url, data, format='json')
+
+        if self.assertEqual(response.status_code, status.HTTP_200_OK):
+            url = reverse('show-user', args=[9])
+            response = self.client.delete(url, data, format='json')
+            self.assertEqual(response.status_code, status.HTTP_200_OK)       
 
 
 

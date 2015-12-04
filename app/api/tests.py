@@ -131,7 +131,7 @@ class FollowUser(APITestCase):
         response = self.client.post(url, data, format='json')
 
         if self.assertEqual(response.status_code, status.HTTP_200_OK):
-            url = reverse('show-user', args=[13])
+            url = reverse('follow', args=[13])
             response = self.client.post(url)
             self.assertEqual(response.status_code, status.HTTP_200_OK) 
 

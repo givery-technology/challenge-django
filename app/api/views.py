@@ -99,7 +99,7 @@ class UserDetail(APIView):
 
 class Follow(APIView):
     """
-    create a new user.
+    follow a valid user.
     """
     def post(self, request, pk, format=None):
         if 'token' not in request.session or 'userId' not in request.session: 
@@ -112,3 +112,21 @@ class Follow(APIView):
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         except Users.DoesNotExist:
             return Response(request.data, status=status.HTTP_400_BAD_REQUEST)
+
+        """
+        unfollow a followed user.
+        """
+    def delete(self, request, pk, format=None):
+        if 'token' not in request.session or 'userId' not in request.session: 
+            return Response(status=status.HTTP_400_BAD_REQUEST)
+        try:
+            follower = Users.objects.get(pk=request.session['userId'])
+            unfollow = Users.objects.get(pk=pk)    
+            query = Followers.objects.filter(user_id=unfollow, followed_by_id=follower)
+            query.delete()
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        except follower.DoesNotExist or unfollow.DoesNotExist or query.DoesNotExist:
+            raise Http404                
+        
+
+

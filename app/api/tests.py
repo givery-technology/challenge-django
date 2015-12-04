@@ -135,3 +135,47 @@ class FollowUser(APITestCase):
             response = self.client.post(url)
             self.assertEqual(response.status_code, status.HTTP_200_OK) 
 
+
+class UnFollowUser(APITestCase):
+    def test_unfollow_user_without_login(self):
+        u = Users(id=14, username='testing14', email='testing14@testing.com', password='password', birthday='1997-04-17')
+        u.save()
+        u = Users(id=15, username='testing15', email='testing15@testing.com', password='password', birthday='1997-04-17')
+        u.save()
+
+        url = reverse('follow', args=[15])
+        response = self.client.delete(url)
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+
+    def test_unfollow_user_with_login_without_followed_fail(self):
+        u = Users(id=16, username='testing16', email='testing16@testing.com', password='password', birthday='1997-04-17')
+        u.save()
+        u = Users(id=17, username='testing17', email='testing17@testing.com', password='password', birthday='1997-04-17')
+        u.save()
+
+        url = reverse('login')
+        data = {'email': 'testing16@testing.com', 'password': 'password'}
+        response = self.client.post(url, data, format='json')
+
+        if self.assertEqual(response.status_code, status.HTTP_200_OK):
+            url = reverse('follow', args=[17])
+            response = self.client.post(url)
+            self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+
+    def test_unfollow_user_with_login_with_followed_success(self):
+        u = Users(id=18, username='testing18', email='testing18@testing.com', password='password', birthday='1997-04-17')
+        u.save()
+        u = Users(id=19, username='testing19', email='testing19@testing.com', password='password', birthday='1997-04-17')
+        u.save()
+
+        url = reverse('login')
+        data = {'email': 'testing18@testing.com', 'password': 'password'}
+        response = self.client.post(url, data, format='json')
+
+        if self.assertEqual(response.status_code, status.HTTP_200_OK):
+            url = reverse('follow', args=[19])
+            response = self.client.post(url)
+            if self.assertEqual(response.status_code, status.HTTP_200_OK):        
+                url = reverse('follow', args=[19])
+                response = self.client.delete(url)
+                self.assertEqual(response.status_code, status.HTTP_200_OK)

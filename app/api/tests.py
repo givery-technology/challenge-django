@@ -135,7 +135,6 @@ class FollowUser(APITestCase):
             response = self.client.post(url)
             self.assertEqual(response.status_code, status.HTTP_200_OK) 
 
-
 class UnFollowUser(APITestCase):
     def test_unfollow_user_without_login(self):
         u = Users(id=14, username='testing14', email='testing14@testing.com', password='password', birthday='1997-04-17')

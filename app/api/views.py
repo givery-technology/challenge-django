@@ -113,9 +113,9 @@ class Follow(APIView):
         except Users.DoesNotExist:
             return Response(request.data, status=status.HTTP_400_BAD_REQUEST)
 
-        """
-        unfollow a followed user.
-        """
+    """
+    unfollow a followed user.
+    """
     def delete(self, request, pk, format=None):
         if 'token' not in request.session or 'userId' not in request.session: 
             return Response(status=status.HTTP_400_BAD_REQUEST)
@@ -128,5 +128,3 @@ class Follow(APIView):
         except follower.DoesNotExist or unfollow.DoesNotExist or query.DoesNotExist:
             raise Http404                
         
-
-

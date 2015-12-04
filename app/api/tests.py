@@ -76,7 +76,6 @@ class UpdateUser(APITestCase):
         data = {'email': 'testing7@testing.com', 'password': 'password'}
         response = self.client.post(url, data, format='json')
 
-
         if self.assertEqual(response.status_code, status.HTTP_200_OK):
             url = reverse('show-user', args=[7])
             data = {'username': 'user7', 'email':'user7@testing.com', 'password':'password7', 'birthday':'1994-04-13', 'company':'Givery', 'location':'Tokyo'}
@@ -110,9 +109,29 @@ class DeleteUser(APITestCase):
             response = self.client.delete(url, data, format='json')
             self.assertEqual(response.status_code, status.HTTP_200_OK)       
 
+class FollowUser(APITestCase):
+    def test_follow_user_without_login(self):
+        u = Users(id=10, username='testing10', email='testing10@testing.com', password='password', birthday='1997-04-17')
+        u.save()
+        u = Users(id=11, username='testing11', email='testing11@testing.com', password='password', birthday='1997-04-17')
+        u.save()
 
+        url = reverse('follow', args=[11])
+        response = self.client.post(url)
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
 
+    def test_follow_user_with_login(self):
+        u = Users(id=12, username='testing12', email='testing12@testing.com', password='password', birthday='1997-04-17')
+        u.save()
+        u = Users(id=13, username='testing13', email='testing13@testing.com', password='password', birthday='1997-04-17')
+        u.save()
 
+        url = reverse('login')
+        data = {'email': 'testing12@testing.com', 'password': 'password'}
+        response = self.client.post(url, data, format='json')
 
-
+        if self.assertEqual(response.status_code, status.HTTP_200_OK):
+            url = reverse('show-user', args=[13])
+            response = self.client.post(url)
+            self.assertEqual(response.status_code, status.HTTP_200_OK) 
 

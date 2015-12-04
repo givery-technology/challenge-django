@@ -6,7 +6,7 @@ from rest_framework.response import Response
 from rest_framework import generics
 from rest_framework import permissions
 
-from api.models import Users
+from api.models import Users, Followers
 from api.serializers import UserSerializer, UserDetailSerializer
 import random
 
@@ -62,7 +62,7 @@ class UserDetail(APIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     def delete(self, request, pk, format=None):
-        if 'token' not in request.session: 
+        if 'token' not in request.session or 'userId' not in request.session: 
             return Response(status=status.HTTP_400_BAD_REQUEST)
         try:
             Users.objects.filter(pk=pk).delete()
@@ -81,6 +81,7 @@ class UserDetail(APIView):
             serializer = UserDetailSerializer(user)
             token = '%32x' % random.getrandbits(16*8)
             request.session['token'] = token
+            request.session['userId'] = user.id
             return Response(serializer.data, status=status.HTTP_200_OK)
         except Users.DoesNotExist:
             return Response(request.data, status=status.HTTP_400_BAD_REQUEST)
@@ -91,6 +92,23 @@ class UserDetail(APIView):
         """
         try:
             del request.session['token']
+            del request.session['userId']
         except KeyError:
             pass     
         return Response(status=status.HTTP_200_OK)
+
+class Follow(APIView):
+    """
+    create a new user.
+    """
+    def post(self, request, pk, format=None):
+        if 'token' not in request.session or 'userId' not in request.session: 
+            return Response(status=status.HTTP_400_BAD_REQUEST)
+        try:
+            follower = Users.objects.get(pk=request.session['userId'])
+            follow = Users.objects.get(pk=pk)    
+            f = Followers(user_id=follow, followed_by_id=follower)
+            f.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        except Users.DoesNotExist:
+            return Response(request.data, status=status.HTTP_400_BAD_REQUEST)

@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from api.models import Users
+from api.models import Users, Followers
 
 class UserSerializer(serializers.ModelSerializer):
     """
@@ -16,3 +16,11 @@ class UserDetailSerializer(serializers.ModelSerializer):
     class Meta:
         model = Users
         fields = ('id', 'username', 'email', 'password', 'birthday', 'company', 'location')              
+
+class FollowSerializer(serializers.ModelSerializer):
+    """
+    Serializing Followers
+    """
+    class Meta:
+        model = Followers
+        fields = ('id', 'user_id.id', 'followed_by_id.id', 'followed_at') 

@@ -12,7 +12,7 @@ class Users(models.Model):
     updated_at = models.DateField(auto_now=True)
 
     def __str__(self):
-        return '{} {} {} {} {}'.format(self.name, self.email, self.birthday, self.company, self.location)
+        return '{} {} {} {} {}'.format(self.username, self.email, self.birthday, self.company, self.location)
 
 # from passlib.hash import pbkdf2_sha256
 # hash = pbkdf2_sha256.encrypt("password", rounds=8000, salt_size=10)
@@ -29,3 +29,48 @@ class Users(models.Model):
 # u.save()
 # u = Users(username="user6", password=hash,email="user6@test.com",birthday="1994-04-17",company="company1",location="location2")
 # u.save()
+
+class Followers(models.Model):
+    user_id = models.ForeignKey(Users, on_delete=models.CASCADE, related_name='followers_user_followed')        # User who is followed
+    followed_by_id = models.ForeignKey(Users, on_delete=models.CASCADE, related_name='followers_follower')    # User one who following 
+    followed_at = models.DateField(auto_now_add=True)
+    
+    class Meta:
+        unique_together = ('user_id', 'followed_by_id')
+
+    def __str__(self):
+        return '{} {} {} {}'.format(self.id, self.user_id.id, self.followed_by_id.id, self.followed_at)    
+
+# user = Users.objects.get(id=1)
+# follower = Users.objects.get(id=2)
+# f = Followers(user_id=user, followed_by_id=follower)
+# f.save()
+# user = Users.objects.get(id=1)
+# follower = Users.objects.get(id=3)
+# f = Followers(user_id=user, followed_by_id=follower)
+# f.save()
+# user = Users.objects.get(id=1)
+# follower = Users.objects.get(id=4)
+# f = Followers(user_id=user, followed_by_id=follower)
+# f.save()
+# user = Users.objects.get(id=1)
+# follower = Users.objects.get(id=5)
+# f = Followers(user_id=user, followed_by_id=follower)
+# f.save()
+# user = Users.objects.get(id=1)
+# follower = Users.objects.get(id=6)
+# f = Followers(user_id=user, followed_by_id=follower)
+# f.save()
+# user = Users.objects.get(id=2)
+# follower = Users.objects.get(id=1)
+# f = Followers(user_id=user, followed_by_id=follower)
+# f.save()
+# user = Users.objects.get(id=2)
+# follower = Users.objects.get(id=3)
+# f = Followers(user_id=user, followed_by_id=follower)
+# f.save()
+
+
+
+
+

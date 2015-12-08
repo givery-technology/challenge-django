@@ -14,13 +14,16 @@ class UserList(APIView):
     """
     List all users.
     """               
-    def get(self, request, offset=0, limit=10, orderBy='id' ,format=None):
+    def get(self, request, offset=0, limit=10, orderBy='id', order='asc',format=None):
         if offset is None:
             offset = 0
         if limit is None:
             limit = 10
         if orderBy is None:
             orderBy = 'id'
+        if order == 'desc':
+            orderBy = '-' + orderBy
+
         try:
             users = Users.objects.all().order_by(orderBy)[offset:limit]
             count = Users.objects.all()[offset:limit].count()

@@ -45,28 +45,28 @@ class LogoutTests(APITestCase):
         response = self.client.delete(url)
         self.assertEqual(response.status_code, status.HTTP_200_OK) 
 
-# class ShowUser(APITestCase):
-    # def test_show_user(self):
-    #     u = Users(id=5, username='testing5', email='testing5@testing.com', password='password')
-    #     u.save()
-    #     url = reverse('show-user', args=[5])
-    #     response = self.client.get(url)
-    #     self.assertEqual(response.status_code, status.HTTP_200_OK)
+class ShowUser(APITestCase):
+    def test_show_user(self):
+        u = Users(id=5, username='testing5', email='testing5@testing.com', password='password')
+        u.save()
+        url = reverse('show-user', args=[5])
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
 
 
-    # def test_user_not_present(self):
-    #     url = reverse('show-user', args=[5])
-    #     response = self.client.get(url)
-    #     self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
+    def test_user_not_present(self):
+        url = reverse('show-user', args=[5])
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
 
 class UpdateUser(APITestCase):
-    # def test_update_username_without_login(self):   
-    #     u = Users(id=6, username='testing6', email='testing6@testing.com', password='password')
-    #     u.save()
-    #     url = reverse('show-user', args=[6])
-    #     data = {'username': 'user6'}
-    #     response = self.client.put(url, data, format='json')
-    #     self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)     
+    def test_update_username_without_login(self):   
+        u = Users(id=6, username='testing6', email='testing6@testing.com', password='password')
+        u.save()
+        url = reverse('show-user', args=[6])
+        data = {'username': 'user6'}
+        response = self.client.put(url, data, format='json')
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)     
 
     def test_update_user_with_login(self):   
         u = Users(id=7, username='testing7', email='testing7@testing.com', password='password', birthday='1997-04-17')
@@ -89,12 +89,12 @@ class UpdateUser(APITestCase):
             self.assertEqual(Users.objects.get().location, 'Tokyo')   
 
 class DeleteUser(APITestCase):
-    # def test_delete_username_without_login(self):   
-    #     u = Users(id=8, username='testing8', email='testing8@testing.com', password='password')
-    #     u.save()
-    #     url = reverse('show-user', args=[8])
-    #     response = self.client.put(url)
-    #     self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)     
+    def test_delete_username_without_login(self):   
+        u = Users(id=8, username='testing8', email='testing8@testing.com', password='password')
+        u.save()
+        url = reverse('show-user', args=[8])
+        response = self.client.put(url)
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)     
 
     def test_delete_user_with_login(self):   
         u = Users(id=9, username='testing9', email='testing9@testing.com', password='password', birthday='1997-04-17')

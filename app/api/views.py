@@ -15,15 +15,13 @@ class UserList(APIView):
     List all users.
     """               
     def get(self, request, offset=0, limit=10, format=None):
-        # print 'offset'
-        # print offset
-        # print 'limit'
-        # print limit
+        if offset is None:
+            offset = 0
+        if limit is None:
+            limit = 10
         try:
             users = Users.objects.all()[offset:limit]
             count = Users.objects.all()[offset:limit].count()
-            # totalcount = Users.objects.all()[5:5].count()
-            # print totalcount
             total_count = Users.objects.count()
             serializer = UserSerializer(users, many=True)
             response = Response()

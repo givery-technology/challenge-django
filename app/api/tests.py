@@ -214,7 +214,7 @@ class Pager(APITestCase):
         url = reverse('user-list', kwargs={'offset':5})
         response = self.client.get(url)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertEqual(response['count'], '6')
+        self.assertEqual(response['count'], '5')
         self.assertEqual(response['total_count'], '11')
         self.assertEqual(response.data[0]['username'], 'testing25')
 
@@ -232,12 +232,12 @@ class Pager(APITestCase):
         self.assertEqual(response['total_count'], '11')
         self.assertEqual(response.data[0]['username'], 'testing22')
 
-        # url = reverse('user-list', kwargs={'limit':5})
-        # response = self.client.get(url)
-        # self.assertEqual(response.status_code, status.HTTP_200_OK)
-        # self.assertEqual(response['count'], '5')
-        # self.assertEqual(response['total_count'], '11')
-        # self.assertEqual(response.data[0]['username'], 'testing20')
+        url = reverse('user-list', kwargs={'limit':5})
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response['count'], '5')
+        self.assertEqual(response['total_count'], '11')
+        self.assertEqual(response.data[0]['username'], 'testing20')
 
         # offset = 0
         # limit = 5

@@ -239,6 +239,13 @@ class Pager(APITestCase):
         self.assertEqual(response['total_count'], '11')
         self.assertEqual(response.data[0]['username'], 'testing20')
 
+        url = reverse('user-list', kwargs={'orderBy':'birthday'})
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response['count'], '10')
+        self.assertEqual(response['total_count'], '11')
+        self.assertEqual(response.data[0]['birthday'], '1990-04-13')
+
         # offset = 0
         # limit = 5
         # order_by = 

@@ -15,7 +15,15 @@ class UserDetailSerializer(serializers.ModelSerializer):
     """
     class Meta:
         model = Users
-        fields = ('id', 'username', 'email', 'password', 'birthday', 'company', 'location')              
+        fields = ('id', 'username', 'email', 'password', 'birthday', 'company', 'location')  
+
+class UserDetailListViewSerializer(serializers.ModelSerializer):
+    """
+    Serializing all the Users
+    """
+    class Meta:
+        model = Users
+        fields = ('id', 'username', 'email', 'birthday', 'company', 'location')                    
 
 class FollowSerializer(serializers.ModelSerializer):
     """

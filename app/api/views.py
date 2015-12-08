@@ -7,23 +7,25 @@ from rest_framework import generics
 from rest_framework import permissions
 
 from api.models import Users, Followers
-from api.serializers import UserSerializer, UserDetailSerializer
+from api.serializers import UserSerializer, UserDetailSerializer, UserDetailListViewSerializer
 import random
 
 class UserList(APIView):
     """
     List all users.
     """               
-    def get(self, request, offset=0, limit=10, format=None):
+    def get(self, request, offset=0, limit=10, orderBy='id' ,format=None):
         if offset is None:
             offset = 0
         if limit is None:
             limit = 10
+        if orderBy is None:
+            orderBy = 'id'
         try:
-            users = Users.objects.all()[offset:limit]
+            users = Users.objects.all().order_by(orderBy)[offset:limit]
             count = Users.objects.all()[offset:limit].count()
             total_count = Users.objects.count()
-            serializer = UserSerializer(users, many=True)
+            serializer = UserDetailListViewSerializer(users, many=True)
             response = Response()
             response['count'] = count
             response['total_count'] = total_count

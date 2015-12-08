@@ -12,12 +12,28 @@ import random
 
 class UserList(APIView):
     """
-    List all users, or create a new user.
-    """
-    def get(self, request, format=None):
-        users = Users.objects.all()
-        serializer = UserSerializer(users, many=True)
-        return Response(serializer.data)
+    List all users.
+    """               
+    def get(self, request, offset=0, limit=10, format=None):
+        # print 'offset'
+        # print offset
+        # print 'limit'
+        # print limit
+        try:
+            users = Users.objects.all()[offset:limit]
+            count = Users.objects.all()[offset:limit].count()
+            # totalcount = Users.objects.all()[5:5].count()
+            # print totalcount
+            total_count = Users.objects.count()
+            serializer = UserSerializer(users, many=True)
+            response = Response()
+            response['count'] = count
+            response['total_count'] = total_count
+            response.data = serializer.data
+            response.status = status.HTTP_200_OK 
+            return response
+        except Users.DoesNotExist:
+            return Response(status=status.HTTP_400_BAD_REQUEST) 
 
 class UserCreate(APIView):
     """
@@ -126,5 +142,9 @@ class Follow(APIView):
             query.delete()
             return Response(serializer.data, status=status.HTTP_200_OK)
         except follower.DoesNotExist or unfollow.DoesNotExist or query.DoesNotExist:
-            raise Http404                
+            raise Http404      
+
+
+
+
         

@@ -253,6 +253,15 @@ class Pager(APITestCase):
         self.assertEqual(response['total_count'], '11')
         self.assertEqual(response.data[0]['birthday'], '1997-04-17')
 
+        u = Users(id=31, username='testing30', email='testing31@testing.com', password='password', birthday='1991-04-13')
+        u.save()
+
+        # url = reverse('user-list', kwargs={'filterOn': username })
+        # response = self.client.get(url)
+        # self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+        # self.assertEqual(response['count'], '10')
+        # self.assertEqual(response['total_count'], '11')
+        # self.assertEqual(response.data[0]['birthday'], '1997-04-17')
 
 
 

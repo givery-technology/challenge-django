@@ -14,19 +14,23 @@ class UserList(APIView):
     """
     List all users.
     """               
-    def get(self, request, offset=0, limit=10, orderBy='id', order='asc',format=None):
+    def get(self, request, offset=0, limit=10, orderBy='id', order='asc', filterOn=None, filterValue=None,format=None):
         if offset is None:
             offset = 0
         if limit is None:
             limit = 10
-        if orderBy is None:
+        if orderBy == None:
             orderBy = 'id'
         if order == 'desc':
             orderBy = '-' + orderBy
 
         try:
-            users = Users.objects.all().order_by(orderBy)[offset:limit]
-            count = Users.objects.all()[offset:limit].count()
+            if filterOn is None:
+                users = Users.objects.all().order_by(orderBy)[offset:limit]
+                count = Users.objects.all()[offset:limit].count()
+            else:    
+                users = Users.objects.all().filter(filterOn=filterValue).order_by(orderBy)[offset:limit]
+                count = Users.objects.all().filter(filterOn)[offset:limit].count()
             total_count = Users.objects.count()
             serializer = UserDetailListViewSerializer(users, many=True)
             response = Response()

@@ -25,12 +25,12 @@ class UserList(APIView):
             orderBy = '-' + orderBy
 
         try:
-            if filterOn is None:
+            if filterOn is None or filterValue is None:
                 users = Users.objects.all().order_by(orderBy)[offset:limit]
                 count = Users.objects.all()[offset:limit].count()
             else:    
-                users = Users.objects.all().filter(filterOn=filterValue).order_by(orderBy)[offset:limit]
-                count = Users.objects.all().filter(filterOn)[offset:limit].count()
+                users = Users.objects.all().filter(**{ filterOn: filterValue }).order_by(orderBy)[offset:limit]
+                count = Users.objects.all().filter(**{ filterOn: filterValue })[offset:limit].count()
             total_count = Users.objects.count()
             serializer = UserDetailListViewSerializer(users, many=True)
             response = Response()

@@ -2,3 +2,4 @@ __pycache__/
 *.pyc
 service.db
 app/api/migrations/*
+node_modules/

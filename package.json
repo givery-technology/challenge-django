@@ -1,0 +1,29 @@
+{
+  "name": "api-challenge-python",
+  "version": "1.0.0",
+  "description": "API challenge to solve in code-check cli or challengeViewer using django framework",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha spec/*"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sukeshni/api-challenge-python.git"
+  },
+  "keywords": [
+    "python",
+    "django",
+    "api"
+  ],
+  "author": "Givery Inc.",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/sukeshni/api-challenge-python/issues"
+  },
+  "homepage": "https://github.com/sukeshni/api-challenge-python#readme",
+  "devDependencies": {
+    "api-first-spec": "^0.2.9",
+    "chai": "^3.4.1",
+    "mocha": "^2.3.4"
+  }
+}

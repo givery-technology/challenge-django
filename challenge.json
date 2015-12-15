@@ -1,12 +1,10 @@
 {
   "editable": [
-    "app/api/*",
-    "app/app/urls.py",
-    "app/*.txt"
+    "codecheck.yml",
+    "app/*"
   ],
   "excludes": [
-    ".gitignore",
     "challenge.json",
   ],
-  "test": "python app/manage.py test api"
+  "test": "mocha --recursive spec/*"
 }

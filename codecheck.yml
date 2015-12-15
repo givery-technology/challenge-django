@@ -1,0 +1,8 @@
+build:
+  - npm install
+web:
+  command: python manage.py runserver
+  port: 8000
+  dir: app
+  console: true
+test: mocha --recursive spec/*

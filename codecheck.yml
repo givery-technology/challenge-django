@@ -1,5 +1,6 @@
 build:
   - npm install
+  - python app/manage.py migrate
 web:
   command: python manage.py runserver
   port: 8000

@@ -4,7 +4,7 @@
     "app/*"
   ],
   "excludes": [
-    "challenge.json",
+    "challenge.json"
   ],
   "test": "mocha --recursive spec/*"
 }

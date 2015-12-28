@@ -1,5 +1,9 @@
 build:
   - npm install
+  - apt-get install python3-pip
+  - pip3 install django
+  - pip3 install djangorestframework
+  - pip3 install django-nose
   - python app/manage.py migrate
 web:
   command: python manage.py runserver
